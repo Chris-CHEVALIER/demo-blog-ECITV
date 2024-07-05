@@ -1,4 +1,18 @@
-<?php require("./header.php") ?>
+<?php
+require("./header.php");
+require("./connect.php");
+
+// Si le formulaire `POST` a été envoyé (soumis) par l'utilisateur
+if ($_POST) {
+    // Requête SQL pour ajouter un nouvel article en BDD
+    $stmt = $db->prepare("INSERT INTO article (title, content, image_url) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $_POST['title'], $_POST['content'], $_POST['image_url']);
+    $stmt->execute();
+
+    // Redirige l'utilisateur vers la page d'accueil après l'insertion
+    header("Location: index.php");
+}
+?>
 
 <!-- Formulaire pour publier un nouvel article -->
 <form method="POST">
